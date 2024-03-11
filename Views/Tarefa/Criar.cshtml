@@ -1,0 +1,44 @@
+@model Tarefa
+
+@{
+    ViewData["Title"] = "Criar tarefa";
+}
+
+<h1>Criar novo contato</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Criar">
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Data" class="control-label"></label>
+                <input asp-for="Data" type="date" class="form-control" />
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select id="Status" class="form-select" asp-for="Status">
+                    <option value="0">Pendente</option>
+                    <option value="1">Finalizado</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<hr>
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>

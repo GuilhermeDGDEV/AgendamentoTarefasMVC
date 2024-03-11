@@ -1,5 +1,9 @@
 @model TarefaViewModel
 
+@{
+    ViewData["Title"] = "Lista de Tarefas";
+}
+
 <form asp-action="Index">
     <div class="row mb-3">
         <div class="col-md-4">
@@ -9,7 +13,7 @@
         <div class="col-md-2">
             <label for="Status" class="form-label">Status</label>
             <select id="Status" class="form-select" asp-for="Status">
-                <option>Selecione o status</option>
+                <option>- Selecione -</option>
                 <option value="0">Pendente</option>
                 <option value="1">Finalizado</option>
             </select>
@@ -28,22 +32,59 @@
     </div>
 </form>
 
+<p>
+    <a asp-action="Criar" class="btn btn-success"><i class="bi bi-plus-circle-dotted me-1"></i>Nova Tarefa</a>
+</p>
+
 <table class="table">
     <thead>
         <tr>
             <th>Título</th>
             <th>Data da Tarefa</th>
             <th>Status</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Tarefas)
         {
             <tr>
-                <td>@Html.DisplayFor(model => item.Titulo)</td>
+                <td>
+                    @Html.DisplayFor(model => item.Titulo)
+                    <i class="bi bi-info-circle-fill" data-bs-toggle="popover" data-bs-content="@item.Descricao"></i>
+                </td>
                 <td>@item.Data.ToShortDateString()</td>
                 <td>@Html.DisplayFor(model => item.Status)</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-primary">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <a asp-action="Detalhes" asp-route-id="@item.Id" class="btn btn-success">
+                        <i class="bi bi-search"></i>
+                    </a>
+                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelecao" data-bs-tarefa="@item.Id">
+                        <i class="bi bi-trash-fill"></i>
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+@* Modal para deletar registro *@
+<div class="modal fade" id="modalDelecao" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Deseja deletar esse registro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <a id="botaoDeletar" class="btn btn-danger">Deletar</a>
+      </div>
+    </div>
+  </div>
+</div>
